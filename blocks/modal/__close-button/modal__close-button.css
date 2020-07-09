@@ -1,0 +1,20 @@
+.modal__close-button {
+  align-self: flex-end;
+  width: 41px;
+  height: 41px;
+  padding: 0px;
+  position: absolute;
+  top: -35px;
+  right: -34px;
+  background: transparent;
+  border: none;
+  background-image: url(../../../images/Close-Icon.svg);
+  cursor: pointer;
+  background-size: cover;
+  transition: background-image 0.4s ease;
+}
+
+.modal__close-button:hover {
+  cursor: pointer;
+  background-image: url(../../../images/Close-Icon-hover.png);
+}

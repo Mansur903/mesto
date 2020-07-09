@@ -1,0 +1,10 @@
+.profile__text-block {
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+@media (max-width: 720px) {
+  .profile__text-block {
+    margin-right: 20px;
+  }
+}

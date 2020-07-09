@@ -1,0 +1,9 @@
+.header__line {
+  padding-top: 35px;
+  width: 100%;
+}
+@media (max-width: 720px) {
+  .header__line {
+    padding-top: 27px;
+  }
+}
