@@ -15,4 +15,4 @@ Mesto - это интерактивная страница, куда можно 
 
 Картинки были оптимизированы с помощью ресурса (https://tinypng.com/), чтобы сайт загружался быстрее.
 
-Сайт выложен на github pages:
+Сайт выложен на github pages: https://mansur903.github.io/mesto/index.html
