@@ -5,6 +5,10 @@
   margin: 0;
   padding-top: 53px;
   padding-left: 30px;
+  max-width: 500px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 @media (max-width: 720px) {

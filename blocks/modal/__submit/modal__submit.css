@@ -15,6 +15,12 @@
 }
 
 .modal__submit:hover {
-  cursor: pointer;
   background-image: url(../../../images/Submit-Button-hover.png);
+}
+
+@media (max-width: 720px) {
+  .modal__submit {
+    width: 250px;
+    background-size: cover;
+  }
 }

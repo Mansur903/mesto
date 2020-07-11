@@ -10,3 +10,10 @@
   flex-direction: column;
   position: relative;
 }
+
+@media (max-width: 720px) {
+  .modal__container {
+    max-width: 250px;
+    padding: 10px;
+  }
+}

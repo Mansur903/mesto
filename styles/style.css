@@ -2,6 +2,7 @@
 @import url(../vendor/normalize.css);
 @import url(../blocks/page/page.css);
 @import url(../blocks/page/__content/page__content.css);
+@import url(../blocks/header/header.css);
 @import url(../blocks/header/__logo/header__logo.css);
 @import url(../blocks/header/__line/header__line.css);
 @import url(../blocks/profile/profile.css);
@@ -12,8 +13,6 @@
 @import url(../blocks/profile/__profession/profile__profession.css);
 @import url(../blocks/profile/__edit-button/profile__edit-button.css);
 @import url(../blocks/profile/__add-button/profile__add-button.css);
-@import url(../blocks/profile/__add-button/_small/profile__add-button_small.css);
-@import url(../blocks/profile/__add-button/_big/profile__add-button_big.css);
 @import url(../blocks/cards/cards.css);
 @import url(../blocks/card/card.css);
 @import url(../blocks/card/__img/card__img.css);
@@ -28,6 +27,7 @@
 @import url(../blocks/modal/__close-button/modal__close-button.css);
 @import url(../blocks/modal/__title/modal__title.css);
 @import url(../blocks/modal/__line/modal__line.css);
-@import url(../blocks/modal/__name/modal__name.css);
-@import url(../blocks/modal/__profession/modal__profession.css);
+@import url(../blocks/modal/__input/modal__input.css);
+@import url(../blocks/modal/__input/_object/modal__input_object_name.css);
+@import url(../blocks/modal/__input/_object/modal__input_object_profession.css);
 @import url(../blocks/modal/__submit/modal__submit.css);
