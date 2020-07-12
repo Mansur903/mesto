@@ -1,8 +1,13 @@
 .modal__input {
+  margin-top: 54px;
   border: none;
   font-size: 14;
   line-height: 1.2;
   font-weight: normal;
   border-bottom: 2px solid #0000004d;
   padding-bottom: 13px;
+}
+
+.modal__input:nth-of-type(2n) {
+  margin-top: 30px;
 }

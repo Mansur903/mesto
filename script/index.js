@@ -7,26 +7,25 @@ const profileName = document.querySelector('.profile__name');
 const profileProfession = document.querySelector('.profile__profession');
 const form = document.querySelector('.modal__container');
 
-function ModalOpen(event) {
+function modalOpen(event) {
   modal.classList.add('modal_is-open');
   modalName.value = profileName.textContent;
   modalProfession.value = profileProfession.textContent;
 }
 
-function ModalClose(event) {
+function modalClose(event) {
   modal.classList.remove('modal_is-open');
-  event.preventDefault();
 }
 
-function ModalSave(event) {
+function modalSave(event) {
   profileName.textContent = modalName.value;
   profileProfession.textContent = modalProfession.value;
-  ModalClose(event);
+  modalClose(event);
   event.preventDefault();
 }
 
-openModalButton.addEventListener('click', ModalOpen)
+openModalButton.addEventListener('click', modalOpen)
 
-closeModalButton.addEventListener('click', ModalClose)
+closeModalButton.addEventListener('click', modalClose)
 
-form.addEventListener('submit', ModalSave)
+form.addEventListener('submit', modalSave)

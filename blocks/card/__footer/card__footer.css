@@ -1,5 +1,6 @@
 .card__footer {
-  height: 79px;
+  padding: 25px;
+  padding-left: 0;
   background-color: white;
   margin-top: -4px;
   border-radius: 0 0 10px 10px;
