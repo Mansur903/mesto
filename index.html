@@ -25,53 +25,7 @@
       </section>
   
       <section class="cards">
-        <div class="card">
-          <img class = "card__img" src = "./images/karachaevsk.png" alt = "Карачаевск">
-          <div class = "card__footer">
-            <h2 class = "card__text">Карачаевск</h2>
-            <button class = "card__like" type="button"></button>
-          </div>
-        </div>
-  
-        <div class="card">
-          <img class = "card__img" src = "./images/elbrus.png" alt = "Эльбрус">
-          <div class = "card__footer">
-            <h2 class = "card__text">Гора Эльбрус</h2>
-            <button class = "card__like" type="button"></button>
-          </div>
-        </div>
-  
-        <div class="card">
-          <img class = "card__img" src = "./images/dombai.png" alt = "Домбай">
-          <div class = "card__footer">
-            <h2 class = "card__text">Домбай</h2>
-            <button class = "card__like" type="button"></button>
-          </div>
-        </div>
-  
-        <div class="card">
-          <img class = "card__img" src = "./images/elbrus.png" alt = "Эльбрус">
-          <div class = "card__footer">
-            <h2 class = "card__text">Гора Эльбрус</h2>
-            <button class = "card__like" type="button"></button>
-          </div>
-        </div>
-  
-        <div class="card">
-          <img class = "card__img" src = "./images/dombai.png" alt = "Домбай">
-          <div class = "card__footer">
-            <h2 class = "card__text">Домбай</h2>
-            <button class = "card__like" type="button"></button>
-          </div>
-        </div>
-  
-        <div class="card">
-          <img class = "card__img" src = "./images/karachaevsk.png" alt = "Карачаевск">
-          <div class = "card__footer">
-            <h2 class = "card__text">Карачаево-Черкессия</h2>
-            <button class = "card__like" type="button"></button>
-          </div>
-        </div>
+        
       </section>
     </main>
 
@@ -79,15 +33,45 @@
       <p class = "footer__text">&copy; 2020 Mesto Russia</p>
     </footer>
   </div>
-  <div class="modal">
+  <div class="modal modal__type_edit-profile">
     <form class="modal__container" name="Form" method="get" action="way">
       <button class="modal__close-button" type="button"></button>
       <h2 class="modal__title">Редактировать профиль</h2>
       <input class = "modal__input modal__input_object_name" type="text" value="Жак-Ив Кусто" name="Name">
       <input class = "modal__input modal__input_object_profession" type="text" value="Исследователь океана" name="Profession">
-      <button type="submit" class = "modal__submit"></button>  
+      <button type="submit" class = "modal__submit modal__submit_type_edit"></button>  
     </form>
   </div>
+  
+  <div class="modal modal__type_add-card">
+    <form class="modal__container" name="Form" method="get" action="way">
+      <button class="modal__close-button" type="button"></button>
+      <h2 class="modal__title">Новое место</h2>
+      <input class = "modal__input modal__input_object_place" type="text" placeholder="Название" name="Название">
+      <input class = "modal__input modal__input_object_url" type="text" placeholder="Ссылка на страницу" name="Ссылка на картинку">
+      <button type="submit" class = "modal__submit modal__submit_type_create"></button>  
+    </form>
+  </div>
+
+  <div class="modal modal__type_image">
+    <div class = modal__image-container>
+      <button class="modal__close-button" type="button"></button>
+      <img class = "modal__image" src = "" alt = "">
+      <h3 class="modal__image-title"></h3>
+    </div>
+  </div>
+
+  <template class="template-card">
+    <div class="card">
+      <div class = "card__img" style=""></div>
+      <div class = "card__footer">
+        <h2 class = "card__text"></h2>
+        <button class = "card__like" type="button"></button>
+      </div>
+      <button class = "card__delete-button" type = "button"></button>
+    </div>
+  </template>
+
   <script src = "./script/index.js"></script>
 </body>
 </html>

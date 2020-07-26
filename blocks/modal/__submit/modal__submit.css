@@ -9,13 +9,7 @@
   text-align: center;
   align-self: center;
   border: none;
-  cursor: pointer;
-  background-image: url(../../../images/Submit-Button.png);
-  transition: background-image 0.4s ease;
-}
-
-.modal__submit:hover {
-  background-image: url(../../../images/Submit-Button-hover.png);
+  cursor: pointer;  
 }
 
 @media (max-width: 720px) {

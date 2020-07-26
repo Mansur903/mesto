@@ -1,0 +1,6 @@
+.modal__image {
+  box-sizing: border-box;
+  display: flex;
+  max-width: 75vw;
+  max-height: 75vh;
+}

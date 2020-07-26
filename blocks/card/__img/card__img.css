@@ -1,3 +1,9 @@
 .card__img {
   max-width: 282px;
+  height: 282px;
+  background-size: cover;
+  border-radius: 10px;
+}
+.card__img:hover {
+  cursor: pointer;
 }

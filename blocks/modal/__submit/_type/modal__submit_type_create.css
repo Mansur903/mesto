@@ -1,0 +1,4 @@
+.modal__submit_type_create {
+  background-image: url(../../../../images/create-button.png);
+  transition: background-image 0.4s ease;
+}
