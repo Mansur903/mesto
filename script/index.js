@@ -124,45 +124,41 @@ function createCard (data) {
   const cardTitle = cardElement.querySelector('.card__text'); 
   const cardLikeButton = cardElement.querySelector('.card__like');
   const cardDeleteButton = cardElement.querySelector('.card__delete-button');
-
   cardLikeButton.addEventListener('click', () => {
     handleLikeClick();
   })
-
   cardDeleteButton.addEventListener('click', () => {
     const removeCard = cardDeleteButton.closest('.card');
     removeCard.remove();
   })
-
   //Открытие 3 модалки
   cardImage.addEventListener('click', () => {
     handleImageClick(data.link, data.name);
   })
-
-  function assignValueImageCard(src, textcontent) {
-    imageModalImg.src = src;
-    imageModalTitle.textContent = textcontent;
-  }
-  function handleImageClick(src, textcontent) {
-    modalOpen(modalImage);
-    assignValueImageCard(src, textcontent);
-  }
-  function handleLikeClick() {
-    cardLikeButton.classList.toggle('card__like_activated')
-  }
-  //-----------------------------------------------------------
-  //Закрытие 3 модалки
-  function modalImageClose() {
-    modalImage.classList.remove('modal_is-open');
-  }
-  modalImageCloseButton.addEventListener('click', modalImageClose)
-  //-----------------------------------------------------------
-
   cardTitle.textContent = data.name;
   cardImage.style.backgroundImage = `url(${data.link})`;
-
   return cardElement;
 }
+
+function assignValueImageCard(src, textcontent) {
+  imageModalImg.src = src;
+  imageModalTitle.textContent = textcontent;
+}
+function handleImageClick(src, textcontent) {
+  modalOpen(modalImage);
+  assignValueImageCard(src, textcontent);
+}
+function handleLikeClick() {
+  cardLikeButton.classList.toggle('card__like_activated')
+}
+
+//-----------------------------------------------------------
+//Закрытие 3 модалки
+function modalImageClose() {
+  modalImage.classList.remove('modal_is-open');
+}
+modalImageCloseButton.addEventListener('click', modalImageClose)
+//-----------------------------------------------------------
 
 function renderCard (data) {
   list.prepend(createCard (data));
