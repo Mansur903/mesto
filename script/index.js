@@ -1,7 +1,7 @@
 //Модалки
-const modalEditProfile = document.querySelector('.modal__type_edit-profile');
-const modalAddCard = document.querySelector('.modal__type_add-card');
-const modalImage = document.querySelector('.modal__type_image'); //Модалка для картинки
+const modalEditProfile = document.querySelector('.modal_type_edit-profile');
+const modalAddCard = document.querySelector('.modal_type_add-card');
+const modalImage = document.querySelector('.modal_type_image'); //Модалка для картинки
 
 //Кнопки
 const openModalButton = document.querySelector('.profile__edit-button');
@@ -21,58 +21,69 @@ const urlInput = modalAddCard.querySelector('.modal__input_object_url');
 const imageModalImg = modalImage.querySelector('.modal__image');//!!!!!------------------!!!!!//
 const imageModalTitle = modalImage.querySelector('.modal__image-title');//!!!!!------------------!!!!!//
 
+//----------------------------------------------------------------------------------
 //Элементы страницы
 const profileName = document.querySelector('.profile__name');
 const profileProfession = document.querySelector('.profile__profession');
+
+//Функция открытия модалки
+function modalOpen(openingModal) {
+  openingModal.classList.add('modal_is-open'); 
+}
+//Функция закрытия модалки
+function modalClose(closingModal) {
+  closingModal.classList.remove('modal_is-open'); 
+}
 //----------------------------------------------------------------------------------
 //Открытие первой модалки
-function modalEditCardOpen(event) {
-  modalEditProfile.classList.add('modal_is-open');
+function assignValueEditCard() {
   modalName.value = profileName.textContent;
   modalProfession.value = profileProfession.textContent;
 }
 
-//Закрытие первой модалки
-function modalClose(event) {
-  modalEditProfile.classList.remove('modal_is-open');
+function handlerEditCard() { 
+  modalOpen(modalEditProfile);
+  assignValueEditCard();
 }
-modalEditProfileCloseButton.addEventListener('click', modalClose)
+openModalButton.addEventListener('click', handlerEditCard);
+
+//Закрытие первой модалки
+function handlerEditCardClose() {
+  modalClose(modalEditProfile)
+}
+modalEditProfileCloseButton.addEventListener('click', handlerEditCardClose)
 //----------------------------------------------------------------------------------
 //Открытие второй модалки
-function modalAddCardOpen() {
-  modalAddCard.classList.add('modal_is-open');
+function handlerAddCard() {
+  modalOpen(modalAddCard)
 }
 
 const openAddCardModalButton = document.querySelector('.profile__add-button');
 openAddCardModalButton.addEventListener('click', () => {
-  modalAddCardOpen();
+  handlerAddCard();
 })
 
 //Закрытие второй модалки
-function modalAddCardClose () {
-  modalAddCard.classList.remove('modal_is-open');
+function handlerAddCardClose () {
+  modalClose(modalAddCard)
 }
+modalAddCardCloseButton.addEventListener('click', handlerAddCardClose)
 
 //Сохранить инфу первой модалки
 function modalSave(event) {
   event.preventDefault();
   profileName.textContent = modalName.value;
   profileProfession.textContent = modalProfession.value;
-  modalClose(event);
+  modalClose(modalEditProfile);
 }
 
 //Добавить карту второй модалкой
 function addCardSubmitHandler(event) {
   event.preventDefault();
-  console.log (placeInput.value, urlInput.value);
   renderCard({name: placeInput.value, link: urlInput.value});
-  modalAddCardClose(event);
+  modalClose(modalAddCard);
 }
 //----------------------------------------------------------------------------------
-
-openModalButton.addEventListener('click', modalEditCardOpen)
-
-modalAddCardCloseButton.addEventListener('click', modalAddCardClose)
 
 editForm.addEventListener('submit', modalSave)
 addCardForm.addEventListener('submit', addCardSubmitHandler)
@@ -109,16 +120,10 @@ const list = document.querySelector('.cards');
 function createCard (data) {
   const cardTemplate = document.querySelector('.template-card').content.querySelector('.card');
   const cardElement = cardTemplate.cloneNode(true);
-
   const cardImage = cardElement.querySelector('.card__img');
   const cardTitle = cardElement.querySelector('.card__text'); 
   const cardLikeButton = cardElement.querySelector('.card__like');
   const cardDeleteButton = cardElement.querySelector('.card__delete-button');
-
-
-  function handleLikeClick() {
-    cardLikeButton.classList.toggle('card__like_activated')
-  }
 
   cardLikeButton.addEventListener('click', () => {
     handleLikeClick();
@@ -131,14 +136,19 @@ function createCard (data) {
 
   //Открытие 3 модалки
   cardImage.addEventListener('click', () => {
-    console.log('222');
     handleImageClick(data.link, data.name);
   })
 
-  function handleImageClick(src, textcontent) {
-    modalImage.classList.add('modal_is-open');
+  function assignValueImageCard(src, textcontent) {
     imageModalImg.src = src;
     imageModalTitle.textContent = textcontent;
+  }
+  function handleImageClick(src, textcontent) {
+    modalOpen(modalImage);
+    assignValueImageCard(src, textcontent);
+  }
+  function handleLikeClick() {
+    cardLikeButton.classList.toggle('card__like_activated')
   }
   //-----------------------------------------------------------
   //Закрытие 3 модалки
