@@ -127,6 +127,9 @@ function createCard (data) {
   cardLikeButton.addEventListener('click', () => {
     handleLikeClick();
   })
+  function handleLikeClick() {
+    cardLikeButton.classList.toggle('card__like_activated')
+  }
   cardDeleteButton.addEventListener('click', () => {
     const removeCard = cardDeleteButton.closest('.card');
     removeCard.remove();
@@ -147,9 +150,6 @@ function assignValueImageCard(src, textcontent) {
 function handleImageClick(src, textcontent) {
   modalOpen(modalImage);
   assignValueImageCard(src, textcontent);
-}
-function handleLikeClick() {
-  cardLikeButton.classList.toggle('card__like_activated')
 }
 
 //-----------------------------------------------------------
