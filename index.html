@@ -35,21 +35,25 @@
   </div>
 
   <div class="modal modal_type_edit-profile">
-    <form class="modal__container" name="Form" method="get" action="way">
+    <form class="modal__container" name="Form" method="get" action="way" novalidate>
       <button class="modal__close-button" type="button"></button>
       <h2 class="modal__title">Редактировать профиль</h2>
-      <input class = "modal__input modal__input_object_name" type="text" value="Жак-Ив Кусто" name="Name">
-      <input class = "modal__input modal__input_object_profession" type="text" value="Исследователь океана" name="Profession">
-      <button type="submit" class = "modal__submit modal__submit_type_edit"></button>  
+      <input class = "modal__input modal__input_object_name" type="text" value="Жак-Ив Кусто" name="name" required minlength="2" maxlength="40" autocomplete="off">
+      <span class="modal__error" id="name-error"></span>
+      <input class = "modal__input modal__input_object_profession" type="text" value="Исследователь океана" name="profession" required minlength="2" maxlength="200" autocomplete="off">
+      <span class="modal__error" id="profession-error"></span>
+      <button type="submit" class = "modal__submit modal__submit_type_edit" disabled></button>  
     </form>
   </div>
   <div class="modal modal_type_add-card">
-    <form class="modal__container" name="Form" method="get" action="way">
+    <form class="modal__container" name="Form" method="get" action="way" novalidate>
       <button class="modal__close-button" type="button"></button>
       <h2 class="modal__title">Новое место</h2>
-      <input class = "modal__input modal__input_object_place" type="text" placeholder="Название" name="Название">
-      <input class = "modal__input modal__input_object_url" type="text" placeholder="Ссылка на страницу" name="Ссылка на картинку">
-      <button type="submit" class = "modal__submit modal__submit_type_create"></button>  
+      <input class = "modal__input modal__input_object_place" type="text" placeholder="Название" name="title" required minlength="1" maxlength="30" autocomplete="off">
+      <span class="modal__error" id="title-error"></span>
+      <input class = "modal__input modal__input_object_url" type="url" placeholder="Ссылка на страницу" name="link" required autocomplete="off">
+      <span class="modal__error" id="link-error"></span>
+      <button type="submit" class = "modal__submit modal__submit_type_create" disabled></button>  
     </form>
   </div>
 
@@ -72,6 +76,7 @@
     </div>
   </template>
 
+  <script src = "./script/validate.js"></script>
   <script src = "./script/index.js"></script>
 </body>
 </html>

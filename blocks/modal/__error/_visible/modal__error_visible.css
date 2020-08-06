@@ -1,0 +1,4 @@
+.modal__error_visible {
+  border-top: 2px solid red;
+  margin-top: -2px;
+}

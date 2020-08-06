@@ -152,8 +152,7 @@ function handleImageClick(src, textcontent) {
   assignValueImageCard(src, textcontent);
 }
 
-//-----------------------------------------------------------
-//Закрытие 3 модалки
+//-----------------------------------------------------------  //Закрытие 3 модалки
 function modalImageClose() {
   modalImage.classList.remove('modal_is-open');
 }
@@ -167,3 +166,29 @@ function renderCard (data) {
 initialCards.forEach((data) => {
   renderCard(data);
 });
+//-----------------------------------------------------------  Закрытие модалки кликом по тёмному фону
+function close_modal_by_overlay_click() {
+  const overlay = Array.from(document.querySelectorAll('.modal'));
+  for (let i = 0; i < overlay.length; i++) {
+    overlay[i].addEventListener('mousedown', (evt) => {
+      if(evt.target.classList.contains('modal_is-open')) {
+        handlerEditCardClose();
+        handlerAddCardClose();
+        modalImageClose();
+      }
+    })
+  }
+}
+close_modal_by_overlay_click();
+//-----------------------------------------------------------  Закрытие модалки кликом по Esc
+function close_modal_by_esc () {
+  document.addEventListener('keydown', function(evt) {
+    console.log(evt.key);
+    if (evt.key === 'Escape') {
+      handlerEditCardClose();
+      handlerAddCardClose();
+      modalImageClose();
+    }
+  })
+}
+close_modal_by_esc ();

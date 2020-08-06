@@ -1,0 +1,8 @@
+.modal__submit_disabled {
+  background-image: url(../../../../images/Submit-Button-disabled.svg);
+  transition: none;
+}
+
+.modal__submit_disabled:hover {
+  background-image: url(../../../../images/Submit-Button-disabled.svg);
+}
