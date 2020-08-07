@@ -4,7 +4,7 @@
   padding: 0;
   background: transparent;
   border: none;
-  background: url(../../../images/delete-Button-hover.svg);
+  background: url(../../../images/Trash.png);
   background-size: cover;
   position: absolute;
   top: 18px;
@@ -12,5 +12,5 @@
 }
 .card__delete-button:hover {
   cursor: pointer;
-  background: url(../../../images/Trash.svg);
+  background: url(../../../images/Trash-hover.png);
 }
