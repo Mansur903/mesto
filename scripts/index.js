@@ -27,12 +27,13 @@ const profileName = document.querySelector('.profile__name');
 const profileProfession = document.querySelector('.profile__profession');
 
 //Функция открытия модалки
-function modalOpen(openingModal) {
+function openModal(openingModal) {
   openingModal.classList.add('modal_is-open'); 
 }
 //Функция закрытия модалки
-function modalClose(closingModal) {
-  closingModal.classList.remove('modal_is-open'); 
+function closeModal(closingModal) {
+  closingModal.classList.remove('modal_is-open');
+  resetErrors() 
 }
 //----------------------------------------------------------------------------------
 //Открытие первой модалки
@@ -42,20 +43,21 @@ function assignValueEditCard() {
 }
 
 function handlerEditCard() { 
-  modalOpen(modalEditProfile);
+  openModal(modalEditProfile);
   assignValueEditCard();
 }
 openModalButton.addEventListener('click', handlerEditCard);
 
 //Закрытие первой модалки
 function handlerEditCardClose() {
-  modalClose(modalEditProfile)
+  closeModal(modalEditProfile)
 }
 modalEditProfileCloseButton.addEventListener('click', handlerEditCardClose)
 //----------------------------------------------------------------------------------
 //Открытие второй модалки
 function handlerAddCard() {
-  modalOpen(modalAddCard)
+  openModal(modalAddCard)
+  resetInputsAddCard()
 }
 
 const openAddCardModalButton = document.querySelector('.profile__add-button');
@@ -65,53 +67,54 @@ openAddCardModalButton.addEventListener('click', () => {
 
 //Закрытие второй модалки
 function handlerAddCardClose () {
-  modalClose(modalAddCard)
+  closeModal(modalAddCard)
+  resetInputsAddCard() 
 }
 modalAddCardCloseButton.addEventListener('click', handlerAddCardClose)
 
 //Сохранить инфу первой модалки
-function modalSave(event) {
+function modalEditSave(event) {
   event.preventDefault();
   profileName.textContent = modalName.value;
   profileProfession.textContent = modalProfession.value;
-  modalClose(modalEditProfile);
+  closeModal(modalEditProfile);
 }
 
 //Добавить карту второй модалкой
 function addCardSubmitHandler(event) {
   event.preventDefault();
   renderCard({name: placeInput.value, link: urlInput.value});
-  modalClose(modalAddCard);
+  closeModal(modalAddCard);
 }
 //----------------------------------------------------------------------------------
 
-editForm.addEventListener('submit', modalSave)
+editForm.addEventListener('submit', modalEditSave)
 addCardForm.addEventListener('submit', addCardSubmitHandler)
 
 const initialCards = [
   {
       name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg',
   },
   {
       name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg',
   },
   {
       name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg',
   },
   {
       name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg',
   },
   {
       name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg',
   },
   {
       name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg',
   }
 ];
 
@@ -136,27 +139,29 @@ function createCard (data) {
   })
   //Открытие 3 модалки
   cardImage.addEventListener('click', () => {
-    handleImageClick(data.link, data.name);
+    handleImageClick(data.link, data.name, data.alt);
   })
   cardTitle.textContent = data.name;
   cardImage.style.backgroundImage = `url(${data.link})`;
+  cardImage.alt = data.alt;
   return cardElement;
 }
 
-function assignValueImageCard(src, textcontent) {
+function assignValueImageCard(src, textcontent, alt) {
   imageModalImg.src = src;
   imageModalTitle.textContent = textcontent;
+  imageModalImg.alt = alt;
 }
-function handleImageClick(src, textcontent) {
-  modalOpen(modalImage);
-  assignValueImageCard(src, textcontent);
+function handleImageClick(src, textcontent, alt) {
+  openModal(modalImage);
+  assignValueImageCard(src, textcontent, alt);
 }
 
 //-----------------------------------------------------------  //Закрытие 3 модалки
-function modalImageClose() {
-  modalImage.classList.remove('modal_is-open');
+function handlerImageClose() {
+  closeModal(modalImage);
 }
-modalImageCloseButton.addEventListener('click', modalImageClose)
+modalImageCloseButton.addEventListener('click', handlerImageClose)
 //-----------------------------------------------------------
 
 function renderCard (data) {
@@ -167,28 +172,48 @@ initialCards.forEach((data) => {
   renderCard(data);
 });
 //-----------------------------------------------------------  Закрытие модалки кликом по тёмному фону
-function close_modal_by_overlay_click() {
+function closeModalByOverlayClick() {
   const overlay = Array.from(document.querySelectorAll('.modal'));
   for (let i = 0; i < overlay.length; i++) {
     overlay[i].addEventListener('mousedown', (evt) => {
       if(evt.target.classList.contains('modal_is-open')) {
-        handlerEditCardClose();
-        handlerAddCardClose();
-        modalImageClose();
+        evt.target.classList.remove('modal_is-open')
+        resetErrors()
       }
     })
   }
 }
-close_modal_by_overlay_click();
+closeModalByOverlayClick();
 //-----------------------------------------------------------  Закрытие модалки кликом по Esc
-function close_modal_by_esc () {
+function closeModalByEsc () {
+  //const overlay = Array.from(document.querySelectorAll('.modal'));
   document.addEventListener('keydown', function(evt) {
-    console.log(evt.key);
     if (evt.key === 'Escape') {
-      handlerEditCardClose();
-      handlerAddCardClose();
-      modalImageClose();
+      const overlay = document.querySelector('.modal_is-open');
+      overlay.classList.remove('modal_is-open');
+      resetErrors()
     }
   })
 }
-close_modal_by_esc ();
+closeModalByEsc();
+
+function resetErrors() {
+  const spans = Array.from(document.querySelectorAll('.modal__error'));
+  spans.forEach((spanElement) => {
+    if (spanElement.classList.contains('modal__error_visible')) 
+    {
+      spanElement.classList.remove('modal__error_visible')
+    }
+    spanElement.textContent = '';
+  })
+  //console.log(spans); 
+}
+
+function resetInputsAddCard() {
+  const placeName = document.querySelector('.modal__input_object_place');
+  const placeUrl = document.querySelector('.modal__input_object_url');
+  const buttonSubmit = document.querySelector('.modal__submit_type_create');
+  buttonSubmit.classList.add('modal__submit_disabled')
+  placeName.value = '';
+  placeUrl.value = '';
+}
