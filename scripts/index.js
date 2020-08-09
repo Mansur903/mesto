@@ -1,3 +1,30 @@
+const initialCards = [
+  {
+      name: 'Архыз',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg',
+  },
+  {
+      name: 'Челябинская область',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg',
+  },
+  {
+      name: 'Иваново',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg',
+  },
+  {
+      name: 'Камчатка',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg',
+  },
+  {
+      name: 'Холмогорский район',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg',
+  },
+  {
+      name: 'Байкал',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg',
+  }
+];
+
 //Модалки
 const modalEditProfile = document.querySelector('.modal_type_edit-profile');
 const modalAddCard = document.querySelector('.modal_type_add-card');
@@ -18,28 +45,57 @@ const addCardForm = modalAddCard.querySelector('.modal__container');
 const placeInput = modalAddCard.querySelector('.modal__input_object_place');
 const urlInput = modalAddCard.querySelector('.modal__input_object_url');
 
-const imageModalImg = modalImage.querySelector('.modal__image');//!!!!!------------------!!!!!//
-const imageModalTitle = modalImage.querySelector('.modal__image-title');//!!!!!------------------!!!!!//
+const imageModalImg = modalImage.querySelector('.modal__image');
+const imageModalTitle = modalImage.querySelector('.modal__image-title');
 
-//----------------------------------------------------------------------------------
 //Элементы страницы
 const profileName = document.querySelector('.profile__name');
 const profileProfession = document.querySelector('.profile__profession');
+
+function resetInputsAddCard() {
+  const placeName = document.querySelector('.modal__input_object_place');
+  const placeUrl = document.querySelector('.modal__input_object_url');
+  const buttonSubmit = document.querySelector('.modal__submit_type_create');
+  buttonSubmit.classList.add('modal__submit_disabled');
+  placeName.value = '';
+  placeUrl.value = '';
+}
+
+function enableButtonEdit() {
+  const buttonSubmitEdit = document.querySelector('.modal__submit_type_edit');
+  buttonSubmitEdit.classList.remove('modal__submit_disabled');
+  buttonSubmitEdit.classList.add('modal__submit_enabled');
+  buttonSubmitEdit.disabled = false;
+}
 
 //Функция открытия модалки
 function openModal(openingModal) {
   openingModal.classList.add('modal_is-open'); 
 }
+
+//Функция сброса ошибок
+function resetErrors() {
+  const spans = Array.from(document.querySelectorAll('.modal__error'));
+  spans.forEach((spanElement) => {
+    if (spanElement.classList.contains('modal__error_visible')) 
+    {
+      spanElement.classList.remove('modal__error_visible')
+    }
+    spanElement.textContent = '';
+  })
+}
+
 //Функция закрытия модалки
 function closeModal(closingModal) {
   closingModal.classList.remove('modal_is-open');
-  resetErrors() 
+  resetErrors();
 }
-//----------------------------------------------------------------------------------
+
 //Открытие первой модалки
 function assignValueEditCard() {
   modalName.value = profileName.textContent;
   modalProfession.value = profileProfession.textContent;
+  enableButtonEdit();
 }
 
 function handlerEditCard() { 
@@ -50,14 +106,14 @@ openModalButton.addEventListener('click', handlerEditCard);
 
 //Закрытие первой модалки
 function handlerEditCardClose() {
-  closeModal(modalEditProfile)
+  closeModal(modalEditProfile);
 }
-modalEditProfileCloseButton.addEventListener('click', handlerEditCardClose)
-//----------------------------------------------------------------------------------
+modalEditProfileCloseButton.addEventListener('click', handlerEditCardClose);
+
 //Открытие второй модалки
 function handlerAddCard() {
-  openModal(modalAddCard)
-  resetInputsAddCard()
+  openModal(modalAddCard);
+  resetInputsAddCard();
 }
 
 const openAddCardModalButton = document.querySelector('.profile__add-button');
@@ -86,39 +142,15 @@ function addCardSubmitHandler(event) {
   renderCard({name: placeInput.value, link: urlInput.value});
   closeModal(modalAddCard);
 }
-//----------------------------------------------------------------------------------
 
-editForm.addEventListener('submit', modalEditSave)
-addCardForm.addEventListener('submit', addCardSubmitHandler)
+editForm.addEventListener('submit', modalEditSave);
+addCardForm.addEventListener('submit', addCardSubmitHandler);
 
-const initialCards = [
-  {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg',
-  },
-  {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg',
-  },
-  {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg',
-  },
-  {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg',
-  },
-  {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg',
-  },
-  {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg',
-  }
-];
+const cards = document.querySelector('.cards');
 
-const list = document.querySelector('.cards');
+function handleLikeClick(element) {
+  element.classList.toggle('card__like_activated');
+}
 
 function createCard (data) {
   const cardTemplate = document.querySelector('.template-card').content.querySelector('.card');
@@ -128,22 +160,21 @@ function createCard (data) {
   const cardLikeButton = cardElement.querySelector('.card__like');
   const cardDeleteButton = cardElement.querySelector('.card__delete-button');
   cardLikeButton.addEventListener('click', () => {
-    handleLikeClick();
+    handleLikeClick(cardLikeButton);
   })
-  function handleLikeClick() {
-    cardLikeButton.classList.toggle('card__like_activated')
-  }
+
   cardDeleteButton.addEventListener('click', () => {
-    const removeCard = cardDeleteButton.closest('.card');
-    removeCard.remove();
+    const cardToRemove = cardDeleteButton.closest('.card');
+    cardToRemove.remove();
   })
+
   //Открытие 3 модалки
   cardImage.addEventListener('click', () => {
-    handleImageClick(data.link, data.name, data.alt);
+    handleImageClick(data.link, data.name);
   })
   cardTitle.textContent = data.name;
   cardImage.style.backgroundImage = `url(${data.link})`;
-  cardImage.alt = data.alt;
+  cardImage.alt = data.name;
   return cardElement;
 }
 
@@ -152,41 +183,41 @@ function assignValueImageCard(src, textcontent, alt) {
   imageModalTitle.textContent = textcontent;
   imageModalImg.alt = alt;
 }
+
 function handleImageClick(src, textcontent, alt) {
   openModal(modalImage);
   assignValueImageCard(src, textcontent, alt);
 }
 
-//-----------------------------------------------------------  //Закрытие 3 модалки
-function handlerImageClose() {
+//Закрытие 3 модалки
+modalImageCloseButton.addEventListener('click', function () {
   closeModal(modalImage);
-}
-modalImageCloseButton.addEventListener('click', handlerImageClose)
-//-----------------------------------------------------------
+})
 
 function renderCard (data) {
-  list.prepend(createCard (data));
+  cards.prepend(createCard (data));
 }
 
 initialCards.forEach((data) => {
   renderCard(data);
 });
-//-----------------------------------------------------------  Закрытие модалки кликом по тёмному фону
+
+//Закрытие модалки кликом по тёмному фону
 function closeModalByOverlayClick() {
   const overlay = Array.from(document.querySelectorAll('.modal'));
   for (let i = 0; i < overlay.length; i++) {
     overlay[i].addEventListener('mousedown', (evt) => {
       if(evt.target.classList.contains('modal_is-open')) {
-        evt.target.classList.remove('modal_is-open')
-        resetErrors()
+        evt.target.classList.remove('modal_is-open');
+        resetErrors();
       }
     })
   }
 }
 closeModalByOverlayClick();
-//-----------------------------------------------------------  Закрытие модалки кликом по Esc
+
+//Закрытие модалки кликом по Esc
 function closeModalByEsc () {
-  //const overlay = Array.from(document.querySelectorAll('.modal'));
   document.addEventListener('keydown', function(evt) {
     if (evt.key === 'Escape') {
       const overlay = document.querySelector('.modal_is-open');
@@ -196,24 +227,3 @@ function closeModalByEsc () {
   })
 }
 closeModalByEsc();
-
-function resetErrors() {
-  const spans = Array.from(document.querySelectorAll('.modal__error'));
-  spans.forEach((spanElement) => {
-    if (spanElement.classList.contains('modal__error_visible')) 
-    {
-      spanElement.classList.remove('modal__error_visible')
-    }
-    spanElement.textContent = '';
-  })
-  //console.log(spans); 
-}
-
-function resetInputsAddCard() {
-  const placeName = document.querySelector('.modal__input_object_place');
-  const placeUrl = document.querySelector('.modal__input_object_url');
-  const buttonSubmit = document.querySelector('.modal__submit_type_create');
-  buttonSubmit.classList.add('modal__submit_disabled')
-  placeName.value = '';
-  placeUrl.value = '';
-}

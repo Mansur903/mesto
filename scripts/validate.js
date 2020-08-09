@@ -9,28 +9,24 @@ const validationConfig = {
   errorClass: 'modal__error_visible'
 };
 
-
-function enableValidation({formSelector, inputSelector, submitButtonSelector, activeButtonClass, inactiveButtonClass, inputValidClass, //Запустить валидацию всех форм
-inputErrorClass, errorClass}) {
-  const forms = Array.from(document.querySelectorAll(formSelector));
-  //console.log(forms);
-  forms.forEach((formElement) => {
-    const inputs = Array.from(formElement.querySelectorAll(inputSelector));
-    const buttonSubmit = formElement.querySelector(submitButtonSelector);
-    resetDefaultAction(formElement);
-    inputs.forEach((inputElement) => {
-      eventHandler(inputElement, formElement, inputErrorClass, inputValidClass, errorClass, 
-      inputs, buttonSubmit, activeButtonClass, inactiveButtonClass);
-    })   
-  })  
-}
-
-enableValidation(validationConfig);
-
 function resetDefaultAction(element) {        //Сбросить дефолтное поведение
   element.addEventListener('submit', (evt) => {
     evt.preventDefault();
   });
+}
+
+function addValidStatus(inputErrorClass, inputValidClass, errorClass, inputElement, errorElement) {  //Валидный статус инпута
+  inputElement.classList.remove(inputErrorClass);
+  inputElement.classList.add(inputValidClass);
+  errorElement.textContent = '';
+  errorElement.classList.remove(errorClass);
+}
+
+function addInvalidStatus(inputErrorClass, inputValidClass, errorClass, inputElement, errorElement) {  //Невалидный статус инпута
+  inputElement.classList.add(inputErrorClass);
+  inputElement.classList.remove(inputValidClass);
+  errorElement.textContent = inputElement.validationMessage;
+  errorElement.classList.add(errorClass);
 }
 
 function eventHandler(inputElement, formElement, inputErrorClass, inputValidClass, errorClass, //Обработчик событий
@@ -48,19 +44,21 @@ inputs, buttonSubmit, activeButtonClass, inactiveButtonClass) {
   })
 }
 
-function addValidStatus(inputErrorClass, inputValidClass, errorClass, inputElement, errorElement) {  //Валидный статус инпута
-  inputElement.classList.remove(inputErrorClass);
-  inputElement.classList.add(inputValidClass);
-  errorElement.textContent = '';
-  errorElement.classList.remove(errorClass);
+function enableValidation({formSelector, inputSelector, submitButtonSelector, activeButtonClass, inactiveButtonClass, inputValidClass, //Запустить валидацию всех форм
+inputErrorClass, errorClass}) {
+  const forms = Array.from(document.querySelectorAll(formSelector));
+  forms.forEach((formElement) => {
+    const inputs = Array.from(formElement.querySelectorAll(inputSelector));
+    const buttonSubmit = formElement.querySelector(submitButtonSelector);
+    resetDefaultAction(formElement);
+    inputs.forEach((inputElement) => {
+      eventHandler(inputElement, formElement, inputErrorClass, inputValidClass, errorClass, 
+      inputs, buttonSubmit, activeButtonClass, inactiveButtonClass);
+    })   
+  })  
 }
 
-function addInvalidStatus(inputErrorClass, inputValidClass, errorClass, inputElement, errorElement) {  //Невалидный статус инпута
-  inputElement.classList.add(inputErrorClass);
-  inputElement.classList.remove(inputValidClass);
-  errorElement.textContent = inputElement.validationMessage;
-  errorElement.classList.add(errorClass);
-}
+enableValidation(validationConfig);
 
 function buttonValidation(isFormValid, buttonSubmit, activeButtonClass, inactiveButtonClass) {   //Проверка валидности для кнопки
   if (!isFormValid) {
