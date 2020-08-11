@@ -142,7 +142,7 @@ function addCardCloseRemoveEventListener() {
   modalAddCardCloseButton.removeEventListener('click', closeSecondModal)
 }
 
-//Сохранить инфу из первой модалки
+//Сохранить информацию из первой модалки
 function modalEditSave(event) {
   event.preventDefault();
   profileName.textContent = modalName.value;
