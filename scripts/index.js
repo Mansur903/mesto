@@ -148,7 +148,6 @@ function modalEditSave(event) {
   profileName.textContent = modalName.value;
   profileProfession.textContent = modalProfession.value;
   closeModal(modalEditProfile);
-  editForm.removeEventListener('submit', modalEditSave);
 }
 
 //Добавить карту второй модалкой
