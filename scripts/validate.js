@@ -15,6 +15,19 @@ function resetDefaultAction(element) {        //Сбросить дефолтн�
   });
 }
 
+const errorMessages = Array.from(document.querySelectorAll('.modal__error'));
+
+//Функция сброса ошибок
+function resetErrors() {
+  errorMessages.forEach((spanElement) => {
+    if (spanElement.classList.contains('modal__error_visible')) 
+    {
+      spanElement.classList.remove('modal__error_visible')
+    }
+    spanElement.textContent = '';
+  })
+}
+
 function addValidStatus(inputErrorClass, inputValidClass, errorClass, inputElement, errorElement) {  //Валидный статус инпута
   inputElement.classList.remove(inputErrorClass);
   inputElement.classList.add(inputValidClass);

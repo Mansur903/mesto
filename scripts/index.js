@@ -53,12 +53,10 @@ const profileName = document.querySelector('.profile__name');
 const profileProfession = document.querySelector('.profile__profession');
 
 function resetInputsAddCard() {
-  const placeName = document.querySelector('.modal__input_object_place');
-  const placeUrl = document.querySelector('.modal__input_object_url');
   const buttonSubmit = document.querySelector('.modal__submit_type_create');
   buttonSubmit.classList.add('modal__submit_disabled');
-  placeName.value = '';
-  placeUrl.value = '';
+  placeInput.value = '';
+  urlInput.value = '';
 }
 
 function enableButtonEdit() {
@@ -70,70 +68,87 @@ function enableButtonEdit() {
 
 //Функция открытия модалки
 function openModal(openingModal) {
-  openingModal.classList.add('modal_is-open'); 
-}
-
-//Функция сброса ошибок
-function resetErrors() {
-  const spans = Array.from(document.querySelectorAll('.modal__error'));
-  spans.forEach((spanElement) => {
-    if (spanElement.classList.contains('modal__error_visible')) 
-    {
-      spanElement.classList.remove('modal__error_visible')
-    }
-    spanElement.textContent = '';
-  })
+  openingModal.classList.add('modal_is-open');
+  setCloseByOverlayEventListener();
+  setEscCloseEventListener();
 }
 
 //Функция закрытия модалки
 function closeModal(closingModal) {
   closingModal.classList.remove('modal_is-open');
-  resetErrors();
+  removeCloseByOverlayEventListener();
+  removeEscCloseEventListener();
 }
 
-//Открытие первой модалки
-function assignValueEditCard() {
+//Установка слушателя для открытия первой модалки
+function editProfileOpenAddEventListener() {
+  openModalButton.addEventListener('click', openFirstModal);
+}
+editProfileOpenAddEventListener();
+
+//Установка слушателя для закрытия первой модалки
+function editProfileCloseAddEventListener() {
+  modalEditProfileCloseButton.addEventListener('click', closeAndResetErrEditProfile);
+}
+
+//Удаление слушателя для закрытия первой модалки
+function editProfileCloseRemoveEventListener() {
+  modalEditProfileCloseButton.removeEventListener('click', closeAndResetErrEditProfile);
+}
+
+function openFirstModal() {
+  openModal(modalEditProfile);
   modalName.value = profileName.textContent;
   modalProfession.value = profileProfession.textContent;
   enableButtonEdit();
+  editProfileCloseAddEventListener();
 }
 
-function handlerEditCard() { 
-  openModal(modalEditProfile);
-  assignValueEditCard();
-}
-openModalButton.addEventListener('click', handlerEditCard);
-
-//Закрытие первой модалки
-function handlerEditCardClose() {
+function closeAndResetErrEditProfile() {
   closeModal(modalEditProfile);
+  resetErrors();
+  editProfileCloseRemoveEventListener();
 }
-modalEditProfileCloseButton.addEventListener('click', handlerEditCardClose);
 
 //Открытие второй модалки
-function handlerAddCard() {
+function openSecondModal() {
   openModal(modalAddCard);
   resetInputsAddCard();
+  addCardCloseAddEventListener();
 }
 
 const openAddCardModalButton = document.querySelector('.profile__add-button');
+
+//Установка слушателя открытия второй модалки
 openAddCardModalButton.addEventListener('click', () => {
-  handlerAddCard();
-})
+  openSecondModal();
+});
 
 //Закрытие второй модалки
-function handlerAddCardClose () {
-  closeModal(modalAddCard)
-  resetInputsAddCard() 
+function closeSecondModal () {
+  closeModal(modalAddCard);
+  resetInputsAddCard();
+  resetErrors(); 
+  addCardCloseRemoveEventListener();
 }
-modalAddCardCloseButton.addEventListener('click', handlerAddCardClose)
 
-//Сохранить инфу первой модалки
+//Установка слушателя закрытия второй модалки
+function addCardCloseAddEventListener() {
+  modalAddCardCloseButton.addEventListener('click', closeSecondModal)
+}
+
+//Удаление слушателя закрытия второй модалки
+function addCardCloseRemoveEventListener() {
+  modalAddCardCloseButton.removeEventListener('click', closeSecondModal)
+}
+
+//Сохранить инфу из первой модалки
 function modalEditSave(event) {
   event.preventDefault();
   profileName.textContent = modalName.value;
   profileProfession.textContent = modalProfession.value;
   closeModal(modalEditProfile);
+  editForm.removeEventListener('submit', modalEditSave);
 }
 
 //Добавить карту второй модалкой
@@ -168,9 +183,12 @@ function createCard (data) {
     cardToRemove.remove();
   })
 
-  //Открытие 3 модалки
-  cardImage.addEventListener('click', () => {
-    handleImageClick(data.link, data.name);
+  //Установка слушателя открытия третьей модалки
+  cardImage.addEventListener('click', function () {
+    openModal(modalImage);
+    imageModalImg.src = data.link;
+    imageModalTitle.textContent = data.name;
+    openImgCloseAddEventListener();
   })
   cardTitle.textContent = data.name;
   cardImage.style.backgroundImage = `url(${data.link})`;
@@ -178,21 +196,21 @@ function createCard (data) {
   return cardElement;
 }
 
-function assignValueImageCard(src, textcontent, alt) {
-  imageModalImg.src = src;
-  imageModalTitle.textContent = textcontent;
-  imageModalImg.alt = alt;
-}
-
-function handleImageClick(src, textcontent, alt) {
-  openModal(modalImage);
-  assignValueImageCard(src, textcontent, alt);
-}
-
-//Закрытие 3 модалки
-modalImageCloseButton.addEventListener('click', function () {
+function closeThirdModal() {
   closeModal(modalImage);
-})
+  openImgCloseRemoveEventListener();
+}
+
+//Установка слушателя закрытия третьей модалки
+function openImgCloseAddEventListener() {
+  modalImageCloseButton.addEventListener('click', closeThirdModal);
+}
+
+
+//Удаление слушателя закрытия третьей модалки
+function openImgCloseRemoveEventListener() {
+  modalImageCloseButton.removeEventListener('click', closeThirdModal);
+}
 
 function renderCard (data) {
   cards.prepend(createCard (data));
@@ -203,27 +221,44 @@ initialCards.forEach((data) => {
 });
 
 //Закрытие модалки кликом по тёмному фону
-function closeModalByOverlayClick() {
-  const overlay = Array.from(document.querySelectorAll('.modal'));
-  for (let i = 0; i < overlay.length; i++) {
-    overlay[i].addEventListener('mousedown', (evt) => {
-      if(evt.target.classList.contains('modal_is-open')) {
-        evt.target.classList.remove('modal_is-open');
-        resetErrors();
-      }
-    })
+function removeOpeningClassByOverlayClick(evt) {
+  if(evt.target.classList.contains('modal_is-open')) {
+    evt.target.classList.remove('modal_is-open');
+    resetErrors();
   }
 }
-closeModalByOverlayClick();
 
-//Закрытие модалки кликом по Esc
-function closeModalByEsc () {
-  document.addEventListener('keydown', function(evt) {
-    if (evt.key === 'Escape') {
-      const overlay = document.querySelector('.modal_is-open');
-      overlay.classList.remove('modal_is-open');
-      resetErrors()
-    }
-  })
+//Закрытие модалки нажатием на Esc
+function removeOpeningClassByEscClick(evt) {
+  if (evt.key === 'Escape') {
+    const overlayEsc = document.querySelector('.modal_is-open');
+    overlayEsc.classList.remove('modal_is-open');
+    resetErrors()
+  }
 }
-closeModalByEsc();
+
+const overlay = Array.from(document.querySelectorAll('.modal'));
+
+//Установка слушателя для закрытия модалки кликом по тёмному фону
+function setCloseByOverlayEventListener() {
+  for (let i = 0; i < overlay.length; i++) {
+    overlay[i].addEventListener('mousedown', removeOpeningClassByOverlayClick);
+  }
+}
+
+//Удаление слушателя для закрытия модалки кликом по тёмному фону
+function removeCloseByOverlayEventListener() {
+  for (let i = 0; i < overlay.length; i++) {
+    overlay[i].removeEventListener('mousedown', removeOpeningClassByOverlayClick);
+  }
+}
+
+//Установка слушателя для закрытия модалки нажатием на Esc
+function setEscCloseEventListener () {
+  document.addEventListener('keydown', removeOpeningClassByEscClick);
+}
+
+//Удаление слушателя для закрытия модалки нажатием на Esc
+function removeEscCloseEventListener () {
+  document.removeEventListener('keydown', removeOpeningClassByEscClick);
+}
